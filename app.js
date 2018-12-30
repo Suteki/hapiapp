@@ -30,7 +30,7 @@ server.route({
 });
 
 const init = async () => {
-  await server.register(require('inert'));
+  await server.register(require('inert')); // <-- adds the inert plugin to hapi application
   
   // Static route
   server.route({

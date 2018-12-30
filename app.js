@@ -15,7 +15,7 @@ server.route({
   path: '/',
   // request, reply
   handler: (request, h) => {
-    return 'Hello, world!';
+    return '<H1>Hello, world!</H1>';
   }
 });
 

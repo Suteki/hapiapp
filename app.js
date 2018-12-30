@@ -10,6 +10,15 @@ const connection = {
 
 const server = Hapi.server(connection)
 
+server.route({
+  method: 'GET',
+  path: '/',
+  // request, reply
+  handler: (request, h) => {
+    return 'Hello, world!';
+  }
+});
+
 const init = async () => {
   await server.start();
   console.log(`Server running at: ${server.info.uri}`);

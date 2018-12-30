@@ -2,6 +2,10 @@
 'use strict'
 
 const Hapi = require('hapi')
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/hapidb', {useNewUrlParser: true})
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.log(err));
 
 const connection = {
     port: 8000,

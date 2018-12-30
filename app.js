@@ -32,6 +32,21 @@ server.route({
   }
 });
 
+// Tasks route
+server.route({
+  method: 'GET',
+  path: '/tasks',
+  handler: (request, h) => {
+    return h.view('tasks', {
+      tasks: [
+        {text: 'Task One'},
+        {text: 'Task Two'},
+        {text: 'Task Three'},
+      ]
+    })
+  }
+});
+
 const init = async () => {
   await server.register(require('inert')); // <-- adds the inert plugin to hapi application
 

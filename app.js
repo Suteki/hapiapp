@@ -16,7 +16,8 @@ server.route({
   path: '/',
   // request, reply
   handler: (request, h) => {
-    return '<H1>Hello, world!</H1>';
+    // return '<H1>Hello, world!</H1>';
+    return h.view('index')
   }
 });
 
@@ -31,7 +32,17 @@ server.route({
 
 const init = async () => {
   await server.register(require('inert')); // <-- adds the inert plugin to hapi application
-  
+
+  await server.register(require('vision'));
+
+  server.views({
+    engines: {
+        html: require('handlebars')
+    },
+    relativeTo: __dirname,
+    path: 'views' // templates folder
+});
+
   // Static route
   server.route({
     method: 'GET',

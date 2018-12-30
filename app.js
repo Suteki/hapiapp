@@ -10,12 +10,22 @@ const connection = {
 
 const server = Hapi.server(connection)
 
+// Static route
 server.route({
   method: 'GET',
   path: '/',
   // request, reply
   handler: (request, h) => {
     return '<H1>Hello, world!</H1>';
+  }
+});
+
+// Dynamic route
+server.route({
+  method: 'GET',
+  path: '/user/{name}',
+  handler: (request, h) => {
+    return `Hello,  ${encodeURIComponent(request.params.name)}!`;
   }
 });
 

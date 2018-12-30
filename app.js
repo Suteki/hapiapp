@@ -17,7 +17,9 @@ server.route({
   // request, reply
   handler: (request, h) => {
     // return '<H1>Hello, world!</H1>';
-    return h.view('index')
+    return h.view('index', {
+      name: 'John Doe'
+    })
   }
 });
 

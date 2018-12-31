@@ -4,8 +4,13 @@
 const Hapi = require('hapi')
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/hapidb', {useNewUrlParser: true})
-  .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.log(err));
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => console.log('MongoDB connected ...'));
+
+// Create Task model
+const Task = mongoose.model('Task', {text: String})
 
 const connection = {
     port: 8000,
@@ -40,7 +45,15 @@ server.route({
 server.route({
   method: 'GET',
   path: '/tasks',
-  handler: (request, h) => {
+  handler: async (request, h) => {
+    const tasks = await Task.find((err, tasks) => {
+      if (err) return console.error(err);
+      // console.log(tasks);
+    })
+
+    return h.view('tasks', { tasks })
+
+    /*
     return h.view('tasks', {
       tasks: [
         {text: 'Task One'},
@@ -48,6 +61,7 @@ server.route({
         {text: 'Task Three'},
       ]
     })
+    */
   }
 });
 

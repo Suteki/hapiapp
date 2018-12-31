@@ -41,7 +41,7 @@ server.route({
   }
 });
 
-// Tasks route
+// GET Tasks route
 server.route({
   method: 'GET',
   path: '/tasks',
@@ -65,10 +65,24 @@ server.route({
   }
 });
 
-const init = async () => {
-  await server.register(require('inert')); // <-- adds the inert plugin to hapi application
+// POST Tasks route
+server.route({
+  method: 'POST',
+  path: '/tasks',
+  handler: async (request, h) => {
+    const text = request.payload.text;
+    const newTask = new Task({text});
+    await newTask.save((err, tasks) => {
+      if (err) return console.error(err)
+    })
+    return h.redirect().location('tasks')
+  }
+});
 
-  await server.register(require('vision'));
+const init = async () => {
+  await server.register(require('inert')) // <-- adds the inert plugin to hapi application
+
+  await server.register(require('vision'))
 
   server.views({
     engines: {
@@ -83,12 +97,12 @@ const init = async () => {
     method: 'GET',
     path: '/hello',
     handler: (request, h) => {
-      return h.file('./public/about.html');
+      return h.file('./public/about.html')
     }
   });
 
   await server.start();
-  console.log(`Server running at: ${server.info.uri}`);
+  console.log(`Server running at: ${server.info.uri}`)
 };
 
 process.on('unhandledRejection', (err) => {
